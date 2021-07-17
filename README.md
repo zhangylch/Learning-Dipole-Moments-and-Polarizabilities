@@ -57,4 +57,4 @@ for i in range(1000):
     var,=pes(period_table,cart[i],tcell,species,tmass)
 ```
 ## 3. References:
-The EANN model for dipole/transition dipole/polarizability: Yaolong Zhang  Sheng Ye, Jinxiao Zhang, Jun Jiang and Bin Jiang<sup>*</sup> *J. Phys. Chem. B* [link](https://pubs.acs.org/doi/10.1021/acs.jpcb.0c06926?goto=articleMetrics&ref=pdf)
+The EANN model for dipole/transition dipole/polarizability: Yaolong Zhang,  Sheng Ye, Jinxiao Zhang, Jun Jiang and Bin Jiang<sup>*</sup> *J. Phys. Chem. B* [link](https://pubs.acs.org/doi/10.1021/acs.jpcb.0c06926?goto=articleMetrics&ref=pdf)
