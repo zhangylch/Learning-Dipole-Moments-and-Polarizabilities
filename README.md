@@ -9,14 +9,14 @@ import torch
 # gpu/cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # same as the atomtype in the file input_density
-atomtype=["C","O","N","H"]
-mass=[12.001,15.999,14.007,1.008]
-mass=torch.from_numpy(np.array(mass))
+atomtype=['O', 'H', 'C', 'N']
+mass=[15.999,1.008,12.001,14.007]
+mass=torch.from_numpy(np.array(mass)).to(device)
 #load the serilizable model
-pes=torch.jit.load("EANN_DM_DOUBLE.pt")
+pes=torch.jit.load("EANN_POL_FLOAT.pt")
 pes.eval()
 pes.to(device).to(torch.double)
-pes=torch.jit.freeze(pes,optimize_numerics=True)
+#pes=torch.jit.freeze(pes,optimize_numerics=True)
 # set the eval mode
 # save the lattice parameters
 cell=np.zeros((3,3),dtype=np.float64)
@@ -46,8 +46,6 @@ with open("configuration",'r') as f1:
             tmp1=list(map(float,tmp[2:8]))
             cart[npoint].append(tmp1[0:3])
             species.append(atomtype.index(tmp[0]))
-        abini=list(map(float,string.split()[1:4]))
-        abini=torch.from_numpy(np.array(abini)).to(device)
         species=torch.from_numpy(np.array(species)).to(device)  # from numpy array to torch tensor
         tcell=torch.from_numpy(cell).to(device).to(torch.double)  
         tmass=mass.index_select(0,species)
@@ -55,6 +53,7 @@ with open("configuration",'r') as f1:
 cart=torch.from_numpy(np.array(cart)).to(device).to(torch.double) 
 for i in range(1000):
     var,=pes(period_table,cart[i],tcell,species,tmass)
+    print(var)
 ```
 ## 3. References:
 The EANN model for dipole/transition dipole/polarizability: Yaolong Zhang,  Sheng Ye, Jinxiao Zhang, Jun Jiang and Bin Jiang<sup>*</sup> *J. Phys. Chem. B* [link](https://pubs.acs.org/doi/10.1021/acs.jpcb.0c06926?goto=articleMetrics&ref=pdf)
